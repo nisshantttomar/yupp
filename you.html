@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+    <title>HBD_KAMO</title>
+    <link rel="stylesheet" href="you.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #ddd;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        .text {
+            color: brown;
+            font-size: 220px;
+            text-align: center;
+        }
+
+        .open {
+            color: green;
+            background: #000;
+            padding: 10px;
+            border-radius: 20px;
+        }
+
+        /* Preloader */
+        .container-preloader {
+            align-items: center;
+            cursor: none;
+            display: flex;
+            height: 100%;
+            justify-content: center;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            z-index: 900;
+        }
+
+        .container-preloader .animation-preloader {
+            position: absolute;
+            z-index: 100;
+        }
+
+        /* Spinner Loading */
+        .container-preloader .animation-preloader .spinner {
+            animation: spinner 1s infinite linear;
+            border-radius: 50%;
+            border: 10px solid rgba(0, 0, 0, 0.2);
+            border-top-color: green;
+            /* It is not in alphabetical order so that you do not overwrite it */
+            height: 9em;
+            margin: 0 auto 3.5em auto;
+            width: 9em;
+        }
+
+        /* Loading text */
+        .container-preloader .animation-preloader .txt-loading {
+            font: bold 5em 'Montserrat', sans-serif;
+            text-align: center;
+            user-select: none;
+        }
+
+        .container-preloader .animation-preloader .txt-loading .characters:before {
+            animation: characters 4s infinite;
+            color: orange;
+            content: attr(preloader-text);
+            left: 0;
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            transform: rotateY(-90deg);
+        }
+
+        .container-preloader .animation-preloader .txt-loading .characters {
+            color: rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .container-preloader .animation-preloader .txt-loading .characters:nth-child(2):before {
+            animation-delay: 0.2s;
+        }
+
+        .container-preloader .animation-preloader .txt-loading .characters:nth-child(3):before {
+            animation-delay: 0.4s;
+        }
+
+        .container-preloader .animation-preloader .txt-loading .characters:nth-child(4):before {
+            animation-delay: 0.6s;
+        }
+
+        .container-preloader .animation-preloader .txt-loading .characters:nth-child(5):before {
+            animation-delay: 0.8s;
+        }
+
+        .container-preloader .animation-preloader .txt-loading .characters:nth-child(6):before {
+            animation-delay: 1s;
+        }
+
+        .container-preloader .animation-preloader .txt-loading .characters:nth-child(7):before {
+            animation-delay: 1.2s;
+        }
+
+        .container-preloader .loader-section {
+            background-color: #ffffff;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            width: calc(50% + 1px);
+        }
+
+        .container-preloader .loader-section.section-left {
+            left: 0;
+        }
+
+        .container-preloader .loader-section.section-right {
+            right: 0;
+        }
+
+        /* Fade effect on loading animation */
+        .loaded .animation-preloader {
+            opacity: 0;
+            transition: 0.3s ease-out;
+        }
+
+        /* Curtain effect */
+        .loaded .loader-section.section-left {
+            transform: translateX(-101%);
+            transition: 0.7s 0.3s all cubic-bezier(0.1, 0.1, 0.1, 1.000);
+        }
+
+        .loaded .loader-section.section-right {
+            transform: translateX(101%);
+            transition: 0.7s 0.3s all cubic-bezier(0.1, 0.1, 0.1, 1.000);
+        }
+
+        /* Animation of the preloader */
+        @keyframes spinner {
+            to {
+                transform: rotateZ(360deg);
+            }
+        }
+
+        /* Animation of letters loading from the preloader */
+        @keyframes characters {
+
+            0%,
+            75%,
+            100% {
+                opacity: 0;
+                transform: rotateY(-90deg);
+            }
+
+            25%,
+            50% {
+                opacity: 1;
+                transform: rotateY(0deg);
+            }
+        }
+
+        /* Laptop size back (laptop, tablet, cell phone) */
+        @media screen and (max-width: 767px) {
+
+            /* Preloader */
+            /* Spinner Loading */
+            .container-preloader .animation-preloader .spinner {
+                height: 8em;
+                width: 8em;
+            }
+
+            /* Text Loading */
+            .container-preloader .animation-preloader .txt-loading {
+                font: bold 3.5em 'Montserrat', sans-serif;
+            }
+        }
+
+        @media screen and (max-width: 500px) {
+
+            /* Prelaoder */
+            /* Spinner Loading */
+            .container-preloader .animation-preloader .spinner {
+                height: 7em;
+                width: 7em;
+            }
+
+            /*Loading text */
+            .container-preloader .animation-preloader .txt-loading {
+                font: bold 2em 'Montserrat', sans-serif;
+            }
+        }
+
+        .origin {
+            text-decoration: none;
+            font-size: 45px;
+        }
+    </style>
+</head>
+
+<body>
+    <embed src="audio\happy-birthday-to-you-piano-version-13976.mp3" loop="true" autostart="true" width="2" height="0">
+    <div id="preloader">
+        <div id="container" class="container-preloader">
+            <div class="animation-preloader">
+                <div class="spinner"></div>
+                <div class="txt-loading">
+                    <span preloader-text="H" class="characters">H</span>
+
+                    <span preloader-text="B" class="characters">B</span>
+
+                    <span preloader-text="D" class="characters">D</span> <br>
+
+                    <span preloader-text="K" class="characters">K</span>
+                    <span preloader-text="A" class="characters">A</span>
+                    <span preloader-text="M" class="characters">M</span>
+                    <span preloader-text="M" class="characters">M</span>
+                    <span preloader-text="O" class="characters">O</span>
+
+
+
+
+
+
+
+
+
+                </div>
+            </div>
+            <div class="loader-section section-left"></div>
+            <div class="loader-section section-right"></div>
+        </div>
+    </div>
+    <div id="navbar">
+        <div id="left">
+            <h2>H.B.D</h2>
+        </div>
+        <div id="right">
+            <ul>
+                <li><a href="index.html">Home</a> </li>
+                <li><a href="#main2">Scroll down</a></li>
+                <li><a href="" onclick="fff()">Next</a></li>
+            </ul>
+        </div>
+    </div>
+    <!--Main Section-->
+    <section id="main1">
+
+        <div class="slideshow-container">
+
+            <div class="mySlides fade">
+                <div class="numbertext">1 / 3</div>
+                <img src="images\WhatsApp Image 2022-11-20 at 3.02.08 PM.jpeg" style="width:25%;height: 39em;">
+                <h4 class="name">D</h4>
+                <h3><span>K <br>A <br>M <br>M <br>O</span></h3>
+
+            </div>
+
+            <div class="mySlides fade">
+                <div class="numbertext">2 / 3</div>
+                <img src="images\WhatsApp Image 2022-11-20 at 3.05.48 PM.jpeg" style="width:25%;height: 39em;">
+                <h4 class="name">H</h4>
+                <h3><span>K <br>A <br>M <br>M <br>O</span></h3>
+            </div>
+
+            <div class="mySlides fade">
+                <div class="numbertext">3 / 3</div>
+                <img src="images\WhatsApp Image 2022-11-20 at 3.05.49 PM.jpeg" style="width:25%;height: 39em;">
+                <h4 class="name">B</h4>
+                <h3><span>K <br>A <br>M <br>M <br>O</span></h3>
+            </div>
+
+        </div>
+        <br>
+
+        <div style="text-align:center">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+
+
+
+    </section>
+
+
+    <section class="image-slider-container" id="main2">
+        
+        <div class="image-slider-heading">
+            <h2 class="image-slider-title">
+                
+            </h2>
+            <div class="swiper-pagination"></div>
+        </div>
+        <div class="swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="slide-con">
+                        <img src="images\WhatsApp Image 2022-11-20 at 3.02.08 PM.jpeg" alt="">
+                        <div class="slide-details">
+                            <div class="movie-info">
+                                <h2 class="movie-name" title="">
+                                    
+                                </h2>
+                                <span class="movie-full-time" title="">
+                                    
+                                </span>
+                                <span class="movie-views" title="">
+
+                                </span>
+                            </div>
+                            <div class="movie-btns">
+                                <a href="#" class="imdb-rate" title="">
+
+                                   
+
+                                </a>
+                                <a href="#" class="like" title="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                        preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36">
+                                        <path fill="currentColor"
+                                            d="M33 7.64c-1.34-2.75-5.2-5-9.69-3.69A9.87 9.87 0 0 0 18 7.72a9.87 9.87 0 0 0-5.31-3.77C8.19 2.66 4.34 4.89 3 7.64c-1.88 3.85-1.1 8.18 2.32 12.87C8 24.18 11.83 27.9 17.39 32.22a1 1 0 0 0 1.23 0c5.55-4.31 9.39-8 12.07-11.71c3.41-4.69 4.19-9.02 2.31-12.87Z"
+                                            class="clr-i-solid clr-i-solid-path-1" />
+                                        <path fill="none" d="M0 0h36v36H0z" />
+                                    </svg>
+                                </a>
+                                <a href="#" class="show-movie" title="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                        preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 256">
+                                        <path fill="currentColor"
+                                            d="M240 128a16.1 16.1 0 0 1-7.7 13.7l-144 87.9a15.5 15.5 0 0 1-16.1.3A15.8 15.8 0 0 1 64 216V40a15.8 15.8 0 0 1 8.2-13.9a15.5 15.5 0 0 1 16.1.3l144 87.9A16.1 16.1 0 0 1 240 128Z" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="slide-con"><img src="images\new1.jpeg" alt="">
+                        <div class="slide-details">
+                            <div class="movie-info">
+                                <h2 class="movie-name" title="">
+                                   
+                                </h2>
+                                <span class="movie-full-time" title="">
+                                    
+                                </span>
+                                <span class="movie-views" title="">
+
+                                </span>
+                            </div>
+                            <div class="movie-btns">
+                                <a href="#" class="imdb-rate" title="">
+
+                                   
+
+                                </a>
+                                <a href="#" class="like" title="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                        preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36">
+                                        <path fill="currentColor"
+                                            d="M33 7.64c-1.34-2.75-5.2-5-9.69-3.69A9.87 9.87 0 0 0 18 7.72a9.87 9.87 0 0 0-5.31-3.77C8.19 2.66 4.34 4.89 3 7.64c-1.88 3.85-1.1 8.18 2.32 12.87C8 24.18 11.83 27.9 17.39 32.22a1 1 0 0 0 1.23 0c5.55-4.31 9.39-8 12.07-11.71c3.41-4.69 4.19-9.02 2.31-12.87Z"
+                                            class="clr-i-solid clr-i-solid-path-1" />
+                                        <path fill="none" d="M0 0h36v36H0z" />
+                                    </svg>
+                                </a>
+                                <a href="#" class="show-movie" title="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                        preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 256">
+                                        <path fill="currentColor"
+                                            d="M240 128a16.1 16.1 0 0 1-7.7 13.7l-144 87.9a15.5 15.5 0 0 1-16.1.3A15.8 15.8 0 0 1 64 216V40a15.8 15.8 0 0 1 8.2-13.9a15.5 15.5 0 0 1 16.1.3l144 87.9A16.1 16.1 0 0 1 240 128Z" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="slide-con"><img src="images\new2.jpeg" alt="">
+                        <div class="slide-details">
+                            <div class="movie-info">
+                                <h2 class="movie-name" title="">
+                                   
+                                </h2>
+                                <span class="movie-full-time" title="">
+                                    
+                                </span>
+                                <span class="movie-views" title="">
+
+                                </span>
+                            </div>
+                            <div class="movie-btns">
+                                <a href="#" class="imdb-rate" title="">
+
+                                    
+
+                                </a>
+                                <a href="#" class="like" title="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                        preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36">
+                                        <path fill="currentColor"
+                                            d="M33 7.64c-1.34-2.75-5.2-5-9.69-3.69A9.87 9.87 0 0 0 18 7.72a9.87 9.87 0 0 0-5.31-3.77C8.19 2.66 4.34 4.89 3 7.64c-1.88 3.85-1.1 8.18 2.32 12.87C8 24.18 11.83 27.9 17.39 32.22a1 1 0 0 0 1.23 0c5.55-4.31 9.39-8 12.07-11.71c3.41-4.69 4.19-9.02 2.31-12.87Z"
+                                            class="clr-i-solid clr-i-solid-path-1" />
+                                        <path fill="none" d="M0 0h36v36H0z" />
+                                    </svg>
+                                </a>
+                                <a href="#" class="show-movie" title="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                        preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 256">
+                                        <path fill="currentColor"
+                                            d="M240 128a16.1 16.1 0 0 1-7.7 13.7l-144 87.9a15.5 15.5 0 0 1-16.1.3A15.8 15.8 0 0 1 64 216V40a15.8 15.8 0 0 1 8.2-13.9a15.5 15.5 0 0 1 16.1.3l144 87.9A16.1 16.1 0 0 1 240 128Z" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="slide-con">
+                        <img src="images\new3.jpeg" alt="">
+                        <div class="slide-details">
+                            <div class="movie-info">
+                                <h2 class="movie-name" title="">
+                                    
+                                </h2>
+                                <span class="movie-full-time" title="">
+                                    
+                                </span>
+                                <span class="movie-views" title="">
+
+                                </span>
+                            </div>
+                            <div class="movie-btns">
+                                <a href="#" class="imdb-rate" title="">
+
+                                    
+
+                                </a>
+                                <a href="#" class="like" title="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                        preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36">
+                                        <path fill="currentColor"
+                                            d="M33 7.64c-1.34-2.75-5.2-5-9.69-3.69A9.87 9.87 0 0 0 18 7.72a9.87 9.87 0 0 0-5.31-3.77C8.19 2.66 4.34 4.89 3 7.64c-1.88 3.85-1.1 8.18 2.32 12.87C8 24.18 11.83 27.9 17.39 32.22a1 1 0 0 0 1.23 0c5.55-4.31 9.39-8 12.07-11.71c3.41-4.69 4.19-9.02 2.31-12.87Z"
+                                            class="clr-i-solid clr-i-solid-path-1" />
+                                        <path fill="none" d="M0 0h36v36H0z" />
+                                    </svg>
+                                </a>
+                                <a href="#" class="show-movie" title="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                        preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 256">
+                                        <path fill="currentColor"
+                                            d="M240 128a16.1 16.1 0 0 1-7.7 13.7l-144 87.9a15.5 15.5 0 0 1-16.1.3A15.8 15.8 0 0 1 64 216V40a15.8 15.8 0 0 1 8.2-13.9a15.5 15.5 0 0 1 16.1.3l144 87.9A16.1 16.1 0 0 1 240 128Z" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="slide-con">
+                        <img src="images\new4.jpeg" alt="">
+                        <div class="slide-details">
+                            <div class="movie-info">
+                                <h2 class="movie-name" title="">
+                                    
+                                </h2>
+                                <span class="movie-full-time" title="">
+                                    
+                                </span>
+                                <span class="movie-views" title="">
+
+                                </span>
+                            </div>
+                            <div class="movie-btns">
+                                <a href="#" class="imdb-rate" title="">
+
+                                    
+
+                                </a>
+                                <a href="#" class="like" title="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                        preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36">
+                                        <path fill="currentColor"
+                                            d="M33 7.64c-1.34-2.75-5.2-5-9.69-3.69A9.87 9.87 0 0 0 18 7.72a9.87 9.87 0 0 0-5.31-3.77C8.19 2.66 4.34 4.89 3 7.64c-1.88 3.85-1.1 8.18 2.32 12.87C8 24.18 11.83 27.9 17.39 32.22a1 1 0 0 0 1.23 0c5.55-4.31 9.39-8 12.07-11.71c3.41-4.69 4.19-9.02 2.31-12.87Z"
+                                            class="clr-i-solid clr-i-solid-path-1" />
+                                        <path fill="none" d="M0 0h36v36H0z" />
+                                    </svg>
+                                </a>
+                                <a href="#" class="show-movie" title="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                        preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 256">
+                                        <path fill="currentColor"
+                                            d="M240 128a16.1 16.1 0 0 1-7.7 13.7l-144 87.9a15.5 15.5 0 0 1-16.1.3A15.8 15.8 0 0 1 64 216V40a15.8 15.8 0 0 1 8.2-13.9a15.5 15.5 0 0 1 16.1.3l144 87.9A16.1 16.1 0 0 1 240 128Z" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <section id="main3">
+
+        <div class="width">
+
+
+
+        </div>
+    </section>
+
+
+
+    <button id="foot"><a href="confes.html">Click For Next</a></button>
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+    <script>
+        new Swiper(".swiper", {
+            loop: true,
+            effect: 'coverflow',
+            centeredSlides: true,
+            slidesPerView: 'auto',
+            speed: 500,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+
+            },
+
+            breakpoints: {
+                768: {
+                    centeredSlides: false,
+                    coverflowEffect: {
+
+                        depth: 0,
+
+                        rotate: 0,
+
+                        stretch: -10,
+
+
+
+                    }
+                }
+            },
+            autoplay: {
+                delay: 3000,
+            },
+            coverflowEffect: {
+                depth: 80,
+                rotate: 50,
+                stretch: 20,
+
+            }
+        })
+    </script>
+
+
+
+
+
+
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script>
+        $(document).ready(function () {
+            setTimeout(function () {
+                $('#container').addClass('loaded');
+                // Once the container has finished, the scroll appears
+                if ($('#container').hasClass('loaded')) {
+                    // It is so that once the container is gone, the entire preloader section is deleted
+                    $('#preloader').delay(2000).queue(function () {
+                        $(this).remove();
+                    });
+                }
+            }, 3000);
+        });
+    </script>
+    <script src="you.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+</body>
+
+</html>
